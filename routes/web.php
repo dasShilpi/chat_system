@@ -4,6 +4,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,3 +35,11 @@ require __DIR__.'/auth.php';
 Route::get('/view-messages', [ChatController::class,'view_message'])->middleware('auth');
 Route::get('/fetch-messages', [ChatController::class, 'fetchMessage']);
 Route::post('/send-messages', [ChatController::class, 'sendMessage']);
+
+Route::get('/fix-config', function () {
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    return '✅ Cleared config, cache, route, and view.';
+});
